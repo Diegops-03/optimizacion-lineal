@@ -1,11 +1,11 @@
 {
   "name": "Aprendiendo Optimización Lineal",
-  "short_name": "Optimización",
+  "short_name": "Aprendiendo Optimización",
+  "description": "Curso interactivo de optimización lineal desde formulación hasta método húngaro.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f5f7fb",
+  "background_color": "#f8fafc",
   "theme_color": "#0f172a",
-  "description": "Aplicación didáctica para aprender optimización lineal paso a paso.",
   "icons": [
     {
       "src": "icons/icon-192.png",
