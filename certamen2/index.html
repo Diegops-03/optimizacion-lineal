@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Ruta al Certamen 2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: cuaderno de ingeniería — riel de días a la izquierda (iPad) o franja superior (teléfono), hoja cuadriculada a la derecha */
+:root{
+  --paper:#fbfaf6; --sheet:#ffffff; --ink:#1d2433; --muted:#5d6577; --line:#dfe2e8; --grid:#eef1f6;
+  --accent:#b83a2e; --accent-soft:#f6e3e0; --ok:#2f7d4f; --ok-soft:#e1f1e7; --warn:#a15c00;
+  --b-sens:#4b4fb8; --b-bb:#0f7f7a; --b-tr:#b7791f; --b-tb:#9c4a26; --b-as:#8a3c86; --b-rep:#4a5568;
+  --cell:#f4f6fa; --cov:#fff1c2; --cov2:#ffd98a; --piv:#b83a2e;
+  --f-display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+  --f-body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#13161d; --sheet:#1a1e27; --ink:#e7e9ee; --muted:#a3aaba; --line:#2d3340; --grid:#1f2430;
+  --accent:#ef7a6b; --accent-soft:#3a2420; --ok:#62c48a; --ok-soft:#1d3326; --warn:#e3a54a;
+  --b-sens:#9c9ff2; --b-bb:#4cc5bd; --b-tr:#e6b25a; --b-tb:#e08a63; --b-as:#d38bd0; --b-rep:#a7b1c4;
+  --cell:#222835; --cov:#3b3520; --cov2:#5a4a1e; --piv:#ef7a6b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#13161d; --sheet:#1a1e27; --ink:#e7e9ee; --muted:#a3aaba; --line:#2d3340; --grid:#1f2430;
+  --accent:#ef7a6b; --accent-soft:#3a2420; --ok:#62c48a; --ok-soft:#1d3326; --warn:#e3a54a;
+  --b-sens:#9c9ff2; --b-bb:#4cc5bd; --b-tr:#e6b25a; --b-tb:#e08a63; --b-as:#d38bd0; --b-rep:#a7b1c4;
+  --cell:#222835; --cov:#3b3520; --cov2:#5a4a1e; --piv:#ef7a6b; color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.app{display:grid;grid-template-columns:minmax(0,1fr);min-height:100%}
+.side{min-width:0}
+@media (min-width:900px){.app{grid-template-columns:300px minmax(0,1fr)}}
+/* top bar */
+.top{background:var(--paper);border-bottom:1px solid var(--line);
+  padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top-row{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
+.brand{font-family:var(--f-display);font-weight:700;font-size:1.15rem;letter-spacing:-.01em}
+.brand small{display:block;font-family:var(--f-body);font-weight:400;font-size:.78rem;color:var(--muted);letter-spacing:0}
+.count{display:flex;gap:14px;align-items:baseline;font-variant-numeric:tabular-nums}
+.count b{font-family:var(--f-display);font-size:1.5rem;color:var(--accent)}
+.count span{font-size:.8rem;color:var(--muted)}
+.bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+/* rail */
+.rail{border-right:1px solid var(--line);background:var(--paper)}
+@media (min-width:900px){.side{position:sticky;top:0;height:100vh;overflow:auto;border-right:1px solid var(--line)}.top{position:static}.rail{border-right:0}}
+.rail-inner{padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:16px}
+.blk{margin-bottom:12px}
+.blk h3{font-family:var(--f-display);font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;margin:6px 0;color:var(--bc)}
+.days{display:flex;flex-direction:column;gap:4px}
+.dbtn{all:unset;cursor:pointer;display:grid;grid-template-columns:44px 1fr 18px;gap:8px;align-items:center;padding:6px 8px;border-radius:8px;border:1px solid transparent}
+.dbtn:hover{background:var(--grid)}
+.dbtn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.dbtn.on{background:var(--sheet);border-color:var(--bc);box-shadow:inset 3px 0 0 var(--bc)}
+.dbtn .dd{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);line-height:1.2;text-align:center}
+.dbtn .dd b{display:block;font-size:1rem;color:var(--ink);font-family:var(--f-display)}
+.dbtn .tt2{font-size:.88rem;line-height:1.3}
+.dbtn .chk2{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line)}
+.dbtn .chk2.half{border-color:var(--ok);background:linear-gradient(90deg,var(--ok) 50%,transparent 50%)}
+.dbtn .chk2.full{border-color:var(--ok);background:var(--ok)}
+.dbtn.today .dd b{color:var(--accent)}
+@media (max-width:899px){
+  .rail{border-right:0;border-bottom:1px solid var(--line)}
+  .rail-inner{display:flex;gap:14px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x proximity}
+  .blk{margin:0;flex:none}
+  .days{flex-direction:row}
+  .dbtn{grid-template-columns:1fr;grid-template-rows:auto auto;justify-items:center;padding:6px 6px;min-width:52px}
+  .dbtn .tt2{display:none}
+  .dbtn .chk2{width:8px;height:8px}
+}
+/* main */
+main{min-width:0;padding-block:18px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.dayhead{display:flex;flex-direction:column;gap:4px}
+.tag{display:inline-flex;gap:8px;align-items:center;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--bc)}
+.tag i{width:10px;height:10px;border-radius:2px;background:var(--bc)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(1.6rem,4vw,2.3rem);line-height:1.1;margin:0;letter-spacing:-.02em;text-wrap:balance}
+.date{color:var(--muted);font-size:.95rem}
+.sec{background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.sec>h2{font-family:var(--f-display);font-size:1.15rem;margin:0 0 8px;display:flex;align-items:center;gap:8px}
+.sec>h2 .n{font-family:var(--f-mono);font-size:.75rem;color:var(--muted);font-weight:400}
+.clase h4{font-family:var(--f-display);font-size:1rem;margin:14px 0 4px}
+.clase p,.clase li{max-width:68ch}
+.tip{background:var(--accent-soft);border-left:3px solid var(--accent);padding:8px 12px;border-radius:0 8px 8px 0}
+.src{color:var(--muted);font-size:.85rem}
+.chk{color:var(--ok);font-size:.9rem}
+.card{border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:12px;background:var(--sheet)}
+.card.done{border-color:var(--ok);background:linear-gradient(0deg,var(--ok-soft),var(--ok-soft)) padding-box}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.card-h h3{font-family:var(--f-display);font-size:1rem;margin:0}
+.intro{font-style:italic;color:var(--muted);margin:0 0 6px}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+button.b{font:inherit;font-size:.88rem;padding:7px 12px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer}
+button.b:hover{border-color:var(--ink)}
+button.b:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.b.pri{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+button.b.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.sol{border-top:1px dashed var(--line);margin-top:12px;padding-top:10px}
+.solpart{margin:10px 0 14px}
+.solpart h5{font-family:var(--f-display);font-size:.95rem;margin:0 0 4px;color:var(--accent)}
+ol.parts{padding-left:0;list-style:none;margin:8px 0 0}
+ol.parts li{margin:4px 0}
+ol.log{font-size:.9rem;padding-left:20px}
+.model{font-family:var(--f-mono);font-size:.92rem;background:var(--cell);border-radius:8px;padding:10px 12px;display:inline-block;line-height:1.7}
+.it{font-size:.94rem}
+/* tables */
+.tw{overflow-x:auto;margin:8px 0;max-width:100%}
+table{border-collapse:collapse;font-family:var(--f-mono);font-size:.86rem;font-variant-numeric:tabular-nums}
+caption{caption-side:top;text-align:left;font-family:var(--f-body);color:var(--muted);font-size:.85rem;padding-bottom:4px}
+.t th,.t td,.ht th,.ht td,.m td{border:1px solid var(--line);padding:4px 8px;text-align:center;white-space:nowrap}
+.t thead th,.ht thead th,.tt thead th{background:var(--cell);font-weight:500}
+.t tbody th,.ht tbody th,.tt tbody th{background:var(--cell);font-weight:500;text-align:left}
+td.piv{position:relative;font-weight:600;color:var(--piv)}
+td.piv::after{content:"";position:absolute;inset:2px 4px;border:2px solid var(--piv);border-radius:50%}
+.mat{display:inline-flex;align-items:center;gap:6px;vertical-align:middle;margin:4px 0}
+.mlab{font-family:var(--f-mono);font-size:.9rem}
+.m{border-left:2px solid var(--ink);border-right:2px solid var(--ink);border-radius:4px}
+.m td{border:0;padding:2px 8px}
+.eq{display:flex;align-items:center;gap:6px;flex-wrap:wrap;overflow-x:auto}
+/* transport */
+.tt th,.tt td{border:1px solid var(--line);padding:3px 6px;text-align:center;min-width:52px;white-space:nowrap}
+.tt td{position:relative;height:46px;vertical-align:bottom}
+.tt .cc{position:absolute;top:2px;right:4px;font-size:.72rem;color:var(--muted);border-left:1px solid var(--line);border-bottom:1px solid var(--line);padding:0 3px}
+.tt .al{display:inline-block;min-width:26px;padding:1px 6px;border:2px solid var(--ink);border-radius:12px;font-weight:600}
+.tt .rd{font-size:.8rem;color:var(--muted);font-style:italic}
+.tt .rd.neg{color:var(--accent);font-weight:600}
+.tt .sg{position:absolute;top:2px;left:4px;font-weight:700;color:var(--accent)}
+.tt td.ent{background:var(--accent-soft)}
+.tt .sd,.tt .uv{background:var(--cell);font-weight:500;vertical-align:middle}
+.pen{font-size:.72rem;color:var(--warn)}
+/* hungarian */
+.ht td.cr,.ht td.cc2{background:var(--cov)}
+.ht td.x2{background:var(--cov2)}
+.ht th.cov{background:var(--cov2)}
+.ht td.star{position:relative;font-weight:700;color:var(--ok)}
+.ht td.star::after{content:"";position:absolute;inset:2px 6px;border:2px solid var(--ok);border-radius:50%}
+/* B&B tree */
+.tree{overflow-x:auto;padding:6px 0}
+.tree ul{list-style:none;margin:0;padding-left:18px;position:relative}
+.tree>ul{padding-left:0}
+.tree li{position:relative;padding:6px 0 0 14px}
+.tree li::before{content:"";position:absolute;left:0;top:0;bottom:0;border-left:1.5px solid var(--line)}
+.tree li:last-child::before{bottom:auto;height:22px}
+.tree li::after{content:"";position:absolute;left:0;top:22px;width:12px;border-top:1.5px solid var(--line)}
+.tree>ul>li::before,.tree>ul>li::after{display:none}
+.tree>ul>li{padding-left:0}
+.br{font-family:var(--f-mono);font-size:.8rem;color:var(--accent);margin-bottom:2px}
+.node{display:inline-block;border:1.5px solid var(--line);border-radius:8px;padding:6px 10px;font-family:var(--f-mono);font-size:.82rem;background:var(--sheet);min-width:150px}
+.node .nl{font-weight:600;color:var(--muted);font-size:.75rem}
+.node .tg{font-family:var(--f-body);font-size:.75rem;font-weight:600;margin-top:2px}
+.node .nn{font-family:var(--f-body);font-size:.72rem;color:var(--muted);max-width:220px;white-space:normal}
+.node.inc{border-color:var(--ok)} .node.inc .tg{color:var(--ok)}
+.node.nf .tg,.node.pod .tg{color:var(--accent)}
+.node.ram .tg{color:var(--b-bb)}
+.node.ent .tg{color:var(--warn)}
+/* graph */
+svg.graph{width:100%;max-width:420px;height:auto;display:block;margin:8px 0;background:var(--sheet);border:1px solid var(--line);border-radius:8px}
+.graph .gr{stroke:var(--grid);stroke-width:1}
+.graph .axl{stroke:var(--ink);stroke-width:1.2}
+.graph .ax{fill:var(--muted);font-size:10px;font-family:var(--f-mono)}
+.graph .reg{fill:var(--b-bb);fill-opacity:.16;stroke:var(--b-bb);stroke-width:1.2}
+.graph .cl{stroke-width:1.4}
+.graph .c0{stroke:var(--b-sens);fill:var(--b-sens)} .graph .c1{stroke:var(--b-tr);fill:var(--b-tr)} .graph .c2{stroke:var(--b-as);fill:var(--b-as)} .graph .c3{stroke:var(--b-tb);fill:var(--b-tb)}
+.graph line.cl{fill:none}
+.graph .clab{font-size:10px;font-family:var(--f-mono);stroke:none}
+.graph .ip{fill:var(--muted);opacity:.6}
+.graph .vx{fill:var(--ink)}
+.graph .opt{fill:none;stroke:var(--accent);stroke-width:2.2}
+.graph .olab{fill:var(--accent);font-size:10.5px;font-family:var(--f-mono);font-weight:600}
+.graph .iopt{fill:var(--ok)}
+.graph .ilab{fill:var(--ok);font-size:10.5px;font-family:var(--f-mono);font-weight:600}
+.nav{display:flex;justify-content:space-between;gap:10px}
+.empty{color:var(--muted)}
+details.ex>summary{cursor:pointer;font-family:var(--f-display);font-weight:600;list-style:none;display:flex;align-items:center;gap:8px}
+details.ex>summary::-webkit-details-marker{display:none}
+details.ex>summary::before{content:"▸";color:var(--bc);transition:transform .2s}
+details.ex[open]>summary::before{transform:rotate(90deg)}
+.foot{color:var(--muted);font-size:.8rem;text-align:center}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<div class="app">
+  <div class="side">
+    <header class="top">
+      <div class="top-row">
+        <div class="brand">Ruta al Certamen 2<small>Optimización Lineal · Prof. Obreque · miércoles 18 nov</small></div>
+        <div class="count"><div><b id="left">–</b> <span id="leftlbl">días</span></div><div><b id="pct">0%</b> <span>hecho</span></div></div>
+      </div>
+      <div class="bar"><i id="barfill"></i></div>
+    </header>
+    <nav class="rail" aria-label="Días"><div class="rail-inner" id="rail"></div></nav>
+  </div>
+  <main><div class="wrap" id="view"><p class="empty">Cargando el plan…</p></div></main>
+</div>
+
+<script type="application/json" id="data">[{"n": 1, "date": "2026-10-22", "block": "sens", "blockName": "Sensibilidad", "title": "B⁻¹ y precios duales", "dayInBlock": 1, "blockLen": 7, "nEj": 3}, {"n": 2, "date": "2026-10-23", "block": "sens", "blockName": "Sensibilidad", "title": "Cambio en c<sub>j<\/sub>", "dayInBlock": 2, "blockLen": 7, "nEj": 3}, {"n": 3, "date": "2026-10-24", "block": "sens", "blockName": "Sensibilidad", "title": "Cambio en b y simplex dual", "dayInBlock": 3, "blockLen": 7, "nEj": 3}, {"n": 4, "date": "2026-10-25", "block": "sens", "blockName": "Sensibilidad", "title": "Nueva restricción", "dayInBlock": 4, "blockLen": 7, "nEj": 3}, {"n": 5, "date": "2026-10-26", "block": "sens", "blockName": "Sensibilidad", "title": "Nueva variable", "dayInBlock": 5, "blockLen": 7, "nEj": 3}, {"n": 6, "date": "2026-10-27", "block": "sens", "blockName": "Sensibilidad", "title": "Tipo certamen", "dayInBlock": 6, "blockLen": 7, "nEj": 3}, {"n": 7, "date": "2026-10-28", "block": "sens", "blockName": "Sensibilidad", "title": "Mini-certamen", "dayInBlock": 7, "blockLen": 7, "nEj": 3}, {"n": 8, "date": "2026-10-29", "block": "bb", "blockName": "Branch and Bound", "title": "Relajación lineal gráfica", "dayInBlock": 1, "blockLen": 5, "nEj": 3}, {"n": 9, "date": "2026-10-30", "block": "bb", "blockName": "Branch and Bound", "title": "El árbol de B&amp;B", "dayInBlock": 2, "blockLen": 5, "nEj": 3}, {"n": 10, "date": "2026-10-31", "block": "bb", "blockName": "Branch and Bound", "title": "Podas y cotas", "dayInBlock": 3, "blockLen": 5, "nEj": 3}, {"n": 11, "date": "2026-11-01", "block": "bb", "blockName": "Branch and Bound", "title": "Casos de certamen", "dayInBlock": 4, "blockLen": 5, "nEj": 3}, {"n": 12, "date": "2026-11-02", "block": "bb", "blockName": "Branch and Bound", "title": "Mini-certamen", "dayInBlock": 5, "blockLen": 5, "nEj": 3}, {"n": 13, "date": "2026-11-03", "block": "tr", "blockName": "Transporte", "title": "Modelo y balanceo", "dayInBlock": 1, "blockLen": 6, "nEj": 3}, {"n": 14, "date": "2026-11-04", "block": "tr", "blockName": "Transporte", "title": "NO, costo mínimo y Vogel", "dayInBlock": 2, "blockLen": 6, "nEj": 3}, {"n": 15, "date": "2026-11-05", "block": "tr", "blockName": "Transporte", "title": "Método u-v", "dayInBlock": 3, "blockLen": 6, "nEj": 3}, {"n": 16, "date": "2026-11-06", "block": "tr", "blockName": "Transporte", "title": "Degeneración y múltiples", "dayInBlock": 4, "blockLen": 6, "nEj": 3}, {"n": 17, "date": "2026-11-07", "block": "tr", "blockName": "Transporte", "title": "Producción, períodos y máximo", "dayInBlock": 5, "blockLen": 6, "nEj": 3}, {"n": 18, "date": "2026-11-08", "block": "tr", "blockName": "Transporte", "title": "Mini-certamen", "dayInBlock": 6, "blockLen": 6, "nEj": 3}, {"n": 19, "date": "2026-11-09", "block": "tb", "blockName": "Transbordo", "title": "Tabla de transbordo", "dayInBlock": 1, "blockLen": 3, "nEj": 3}, {"n": 20, "date": "2026-11-10", "block": "tb", "blockName": "Transbordo", "title": "Casos especiales", "dayInBlock": 2, "blockLen": 3, "nEj": 3}, {"n": 21, "date": "2026-11-11", "block": "tb", "blockName": "Transbordo", "title": "Mini-certamen", "dayInBlock": 3, "blockLen": 3, "nEj": 3}, {"n": 22, "date": "2026-11-12", "block": "as", "blockName": "Asignación", "title": "Método Húngaro", "dayInBlock": 1, "blockLen": 4, "nEj": 3}, {"n": 23, "date": "2026-11-13", "block": "as", "blockName": "Asignación", "title": "Prohibidas, ficticios y máximo", "dayInBlock": 2, "blockLen": 4, "nEj": 3}, {"n": 24, "date": "2026-11-14", "block": "as", "blockName": "Asignación", "title": "Variantes de tablas", "dayInBlock": 3, "blockLen": 4, "nEj": 3}, {"n": 25, "date": "2026-11-15", "block": "as", "blockName": "Asignación", "title": "Mini-certamen", "dayInBlock": 4, "blockLen": 4, "nEj": 3}, {"n": 26, "date": "2026-11-16", "block": "rep", "blockName": "Repaso", "title": "Simulacro C2 (80 min)", "dayInBlock": 1, "blockLen": 2, "nEj": 4}, {"n": 27, "date": "2026-11-17", "block": "rep", "blockName": "Repaso", "title": "Formulario y errores frecuentes", "dayInBlock": 2, "blockLen": 2, "nEj": 3}]</script>
+<script>
+function showErr(m){ try{ var v=document.getElementById('view'); if(v) v.innerHTML='<div class="sec"><h2>No se pudo cargar</h2><p>'+String(m).replace(/</g,'&lt;')+'</p><p class="src">Recarga la página. Si sigue igual, envíale este mensaje a Claude.</p></div>'; }catch(e){} }
+window.onerror=function(msg,src,line){ showErr(msg+' (línea '+line+')'); };
+(function(){
+  var DAYS = JSON.parse(document.getElementById('data').textContent);
+  var CACHE = {};
+  var MESES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var DIAS=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+  var COLORS={sens:'var(--b-sens)',bb:'var(--b-bb)',tr:'var(--b-tr)',tb:'var(--b-tb)',as:'var(--b-as)',rep:'var(--b-rep)'};
+  var store={};
+  try{ store = JSON.parse(localStorage.getItem('c2done')||'{}')||{}; }catch(e){ store={}; }
+  function save(){ try{ localStorage.setItem('c2done', JSON.stringify(store)); }catch(e){} }
+  function pd(s){ var p=s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+  function todayISO(){ var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+  function longDate(s){ var d=pd(s); return DIAS[d.getDay()]+' '+d.getDate()+' de '+MESES[d.getMonth()]; }
+  function key(n,k){ return n+'-'+k; }
+  function doneCount(d){ var c=0; for(var k=0;k<d.nEj;k++){ if(store[key(d.n,k)]) c++; } return c; }
+  var T = todayISO();
+  function initial(){
+    var h=(location.hash||'').replace('#','');
+    var m=h.match(/^d(\d+)$/); if(m){ var n=+m[1]; if(n>=1&&n<=DAYS.length) return n; }
+    for(var i=0;i<DAYS.length;i++){ if(DAYS[i].date===T) return DAYS[i].n; }
+    if(T > DAYS[DAYS.length-1].date) return DAYS.length;
+    return 1;
+  }
+  var cur = initial();
+  function header(){
+    var exam=pd('2026-11-18'), now=pd(T);
+    var diff=Math.round((exam-now)/86400000);
+    var el=document.getElementById('left'), lb=document.getElementById('leftlbl');
+    if(diff>1){ el.textContent=diff; lb.textContent='días para el C2'; }
+    else if(diff===1){ el.textContent='1'; lb.textContent='día: ¡mañana es el C2!'; }
+    else if(diff===0){ el.textContent='Hoy'; lb.textContent='es el C2. ¡Éxito!'; }
+    else { el.textContent='✓'; lb.textContent='C2 rendido'; }
+    var tot=0, dn=0; DAYS.forEach(function(d){ tot+=d.nEj; dn+=doneCount(d); });
+    var p=Math.round(100*dn/tot); document.getElementById('pct').textContent=p+'%'; document.getElementById('barfill').style.width=p+'%';
+  }
+  function rail(){
+    var r=document.getElementById('rail'); var html=''; var last=null;
+    DAYS.forEach(function(d){
+      if(d.block!==last){ if(last!==null) html+='</div></div>'; html+='<div class="blk" style="--bc:'+COLORS[d.block]+'"><h3>'+d.blockName+'</h3><div class="days">'; last=d.block; }
+      var dt=pd(d.date); var dc=doneCount(d), n=d.nEj;
+      var st = dc===0?'':(dc>=n?'full':'half');
+      html+='<button class="dbtn'+(d.n===cur?' on':'')+(d.date===T?' today':'')+'" data-n="'+d.n+'" aria-label="Día '+d.n+', '+longDate(d.date)+'"><span class="dd"><b>'+dt.getDate()+'</b>'+MESES[dt.getMonth()].slice(0,3)+'</span><span class="tt2">'+d.title+'</span><span class="chk2 '+st+'"></span></button>';
+    });
+    html+='</div></div>'; r.innerHTML=html;
+    r.querySelectorAll('.dbtn').forEach(function(b){ b.addEventListener('click', function(){ go(+b.dataset.n); }); });
+    var on=r.querySelector('.dbtn.on'); if(on && on.scrollIntoView){ try{ on.scrollIntoView({block:'nearest',inline:'center'}); }catch(e){} }
+  }
+  function view(){
+    var meta=DAYS[cur-1]; var v=document.getElementById('view'); v.style.setProperty('--bc', COLORS[meta.block]);
+    if(!CACHE[cur]){
+      var want=cur;
+      v.innerHTML='<p class="empty">Cargando día '+cur+'…</p>';
+      var xhr=new XMLHttpRequest();
+      xhr.open('GET','d'+want+'.json',true);
+      xhr.onload=function(){ if(xhr.status>=200&&xhr.status<300||xhr.status===0&&xhr.responseText){ try{ CACHE[want]=JSON.parse(xhr.responseText); if(cur===want) view(); }catch(e){ showErr('Error leyendo el día '+want+': '+e.message); } } else showErr('El día '+want+' respondió '+xhr.status+'.'); };
+      xhr.onerror=function(){ showErr('Sin conexión al cargar el día '+want+'.'); };
+      xhr.send(); return;
+    }
+    var d=CACHE[cur]; for(var kk in meta){ d[kk]=meta[kk]; }
+    var h='';
+    h+='<div class="dayhead"><span class="tag"><i></i>'+d.blockName+' · día '+d.dayInBlock+' de '+d.blockLen+'</span><h1>'+d.title+'</h1><span class="date">Día '+d.n+' de '+DAYS.length+' · '+longDate(d.date)+(d.date===T?' · <b style="color:var(--accent)">hoy</b>':'')+'</span></div>';
+    h+='<section class="sec clase"><h2>Clase</h2>'+d.clase+'</section>';
+    if(d.ejemplos.length){
+      h+='<section class="sec"><h2>Ejemplos resueltos <span class="n">'+d.ejemplos.length+'</span></h2>';
+      d.ejemplos.forEach(function(e,i){
+        h+='<details class="ex card" '+(i===0?'open':'')+'><summary>Ejemplo '+(i+1)+'</summary>'+(e.intro?'<p class="intro">'+e.intro+'</p>':'')+e.q+'<div class="sol">'+e.s+'</div></details>';
+      });
+      h+='</section>';
+    }
+    h+='<section class="sec"><h2>Ejercicios del día <span class="n">'+d.ejercicios.length+'</span></h2><p class="src">Resuélvelos en tu cuaderno primero; después revisa la solución.</p>';
+    d.ejercicios.forEach(function(e,i){
+      var k=key(d.n,i), done=!!store[k];
+      h+='<div class="card'+(done?' done':'')+'" id="c'+i+'"><div class="card-h"><h3>Ejercicio '+(i+1)+'</h3><div class="btns"><button class="b" data-sol="'+i+'" aria-expanded="false">Ver solución</button><button class="b'+(done?' ok':'')+'" data-done="'+i+'" aria-pressed="'+done+'">'+(done?'✓ Hecho':'Marcar hecho')+'</button></div></div>'+e.q+'<div class="sol" id="s'+i+'" hidden>'+e.s+'</div></div>';
+    });
+    h+='</section>';
+    h+='<div class="nav">'+(cur>1?'<button class="b" data-go="'+(cur-1)+'">← Día '+(cur-1)+'</button>':'<span></span>')+(cur<DAYS.length?'<button class="b pri" data-go="'+(cur+1)+'">Día '+(cur+1)+' →</button>':'<span></span>')+'</div>';
+    h+='<p class="foot">Material: Adecca 2026-1 y 2026-2 (C. Obreque) y carpeta OneDrive de R. Linfati. Resultados verificados con un solver.</p>';
+    v.innerHTML=h;
+    v.querySelectorAll('[data-sol]').forEach(function(b){ b.addEventListener('click', function(){ var s=document.getElementById('s'+b.dataset.sol); s.hidden=!s.hidden; b.textContent=s.hidden?'Ver solución':'Ocultar solución'; b.setAttribute('aria-expanded', String(!s.hidden)); }); });
+    v.querySelectorAll('[data-done]').forEach(function(b){ b.addEventListener('click', function(){ var k=key(d.n,+b.dataset.done); store[k]=!store[k]; if(!store[k]) delete store[k]; save(); var c=document.getElementById('c'+b.dataset.done); c.classList.toggle('done', !!store[k]); b.classList.toggle('ok', !!store[k]); b.textContent=store[k]?'✓ Hecho':'Marcar hecho'; b.setAttribute('aria-pressed', String(!!store[k])); header(); rail(); }); });
+    v.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click', function(){ go(+b.dataset.go); }); });
+  }
+  function go(n){ cur=n; try{ history.replaceState(null,'','#d'+n); }catch(e){} view(); rail(); window.scrollTo(0,0); }
+  header(); rail(); view();
+})();
+</script>
+
+</body>
+</html>
